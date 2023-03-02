@@ -1,10 +1,7 @@
 import { GetServerSidePropsContext } from "next";
-import { getSession, signOut, useSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 const Home = () => {
-  const { data: session, status } = useSession();
-  if (status === "unauthenticated") {
-  }
   return (
     <main>
       <button

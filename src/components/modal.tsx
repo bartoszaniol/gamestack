@@ -1,10 +1,23 @@
+import { api } from "~/utils/api";
+
 interface ModalProps {
   onCancel: () => void;
 }
 
 const Modal: React.FC<ModalProps> = ({ onCancel }) => {
+  const addGamee = api.game.addGame.useMutation({
+    onSuccess: async ({}) => {},
+  });
+  const { mutate: addGame, isLoading, error } = api.game.addGame.useMutation();
+
   return (
-    <section className="absolute left-1/2 top-1/2 z-10 -ml-[25%] -mt-[15%] flex h-3/5 w-1/2 flex-col rounded-md bg-black p-2 text-white">
+    <form
+      className="absolute left-1/2 top-1/2 z-10 -ml-[25%] -mt-[15%] flex h-3/5 w-1/2 flex-col rounded-md bg-black p-2 text-white"
+      onSubmit={(e) => {
+        e.preventDefault();
+        addGame({ image: "", title: "", platformId: "" });
+      }}
+    >
       <p className="p-4 text-center text-3xl">Add your game</p>
       <label htmlFor="name" className="p-4 text-center text-2xl">
         Name
@@ -34,7 +47,10 @@ const Modal: React.FC<ModalProps> = ({ onCancel }) => {
         Want different game cover? <span className="cursor-pointer">Click</span>
       </h1>
       <div className="flex flex-1 justify-between p-4">
-        <button className="w-32 rounded-md border-4  p-2 text-white">
+        <button
+          className="w-32 rounded-md border-4  p-2 text-white"
+          type="submit"
+        >
           Add
         </button>
         <button
@@ -46,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({ onCancel }) => {
           Cancel
         </button>
       </div>
-    </section>
+    </form>
   );
 };
 

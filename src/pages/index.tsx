@@ -14,7 +14,7 @@ const index = () => {
         games on the <span className="text-red-600">s</span>tack of shame
       </p>
       <button
-        className="mt-40 w-max rounded-lg bg-blue-600 p-2 px-5 text-2xl font-bold  text-white"
+        className=" mt-40 w-max rounded-lg bg-blue-600 p-2 px-5 text-2xl font-bold  text-white"
         onClick={() => {
           signIn();
         }}

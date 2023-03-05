@@ -17,7 +17,7 @@ export const gameRouter = createTRPCRouter({
           title: input.title,
           platformId: input.platformId,
           image: input.image,
-          addedByUserId: ctx.session?.user.id,
+          addedByUserId: ctx.session.user.id,
         },
       });
       return {
@@ -25,7 +25,9 @@ export const gameRouter = createTRPCRouter({
       };
     }),
 
-  getAll: publicProcedure.query(({ ctx }) => {
-    return ctx.prisma.game.findMany({ where: { id: ctx.session?.user.id } });
+  getAllGamesById: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.game.findMany({
+      where: { addedByUserId: ctx.session?.user.id },
+    });
   }),
 });

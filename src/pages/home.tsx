@@ -2,9 +2,13 @@ import { GetServerSidePropsContext } from "next";
 import { getSession, signOut } from "next-auth/react";
 import { useState } from "react";
 import Modal from "~/components/modal";
+import { api } from "~/utils/api";
 
 const Home = () => {
+  const { data: gamesList } = api.game.getAllGamesById.useQuery();
   const [isModal, setIsModal] = useState(false);
+  const games = gamesList?.map((game) => <li key={game.id}>{game.id}</li>);
+
   return (
     <>
       {isModal && (
@@ -32,6 +36,7 @@ const Home = () => {
         >
           Add a game
         </button>
+        <ul className="h-40 w-20">{games}</ul>
       </main>
     </>
   );
@@ -47,7 +52,8 @@ export const getServerSideProps = async (
   if (!session) {
     return { redirect: { destination: "/" } };
   }
+
   return {
-    props: { session },
+    props: {},
   };
 };

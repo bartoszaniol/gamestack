@@ -5,9 +5,6 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ onCancel }) => {
-  const addGamee = api.game.addGame.useMutation({
-    onSuccess: async ({}) => {},
-  });
   const { mutate: addGame, isLoading, error } = api.game.addGame.useMutation();
 
   return (

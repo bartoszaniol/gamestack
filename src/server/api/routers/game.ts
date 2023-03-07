@@ -1,3 +1,4 @@
+import { Platform } from "@prisma/client";
 import { z } from "zod";
 
 import {
@@ -32,7 +33,7 @@ export const gameRouter = createTRPCRouter({
   }),
 
   getUserPlatforms: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.prisma
-      .$queryRaw`select Platform.name from User join Game on User.id = Game.addedByUserId join Platform on Game.platformId = Platform.id;`;
+    return (await ctx.prisma.$queryRaw`
+      select Platform.name, Platform.id, Platform.image from Platform join Game on Platform.id = Game.platformId join User on User.id = Game.addedByUserId;`) as Platform[];
   }),
 });

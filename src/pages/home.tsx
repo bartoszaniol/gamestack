@@ -1,13 +1,14 @@
 import { GetServerSidePropsContext } from "next";
 import { getSession, signOut } from "next-auth/react";
 import { useState } from "react";
-import Modal from "~/components/modal";
+import Modal from "~/components/Modal";
 import { api } from "~/utils/api";
+import Game from "~/components/Game";
 
 const Home = () => {
   const { data: gamesList } = api.game.getAllGamesById.useQuery();
   const [isModal, setIsModal] = useState(false);
-  const games = gamesList?.map((game) => <li key={game.id}>{game.id}</li>);
+  const games = gamesList?.map((game) => <Game {...game} key={game.id}></Game>);
 
   return (
     <>

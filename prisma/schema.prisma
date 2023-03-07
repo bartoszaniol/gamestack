@@ -16,7 +16,7 @@ datasource db {
 }
 
 model Platform {
-    id    String @id @default(cuid())
+    id    String @id
     name  String
     image String
     games Game[]

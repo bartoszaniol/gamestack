@@ -7,8 +7,11 @@ import Game from "~/components/Game";
 
 const Home = () => {
   const { data: gamesList } = api.game.getAllGamesById.useQuery();
+  const { data: platforms } = api.game.getUserPlatforms.useQuery();
   const [isModal, setIsModal] = useState(false);
   const games = gamesList?.map((game) => <Game {...game} key={game.id}></Game>);
+
+  console.log(platforms);
 
   return (
     <>

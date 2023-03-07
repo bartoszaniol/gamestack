@@ -30,4 +30,9 @@ export const gameRouter = createTRPCRouter({
       where: { addedByUserId: ctx.session?.user.id },
     });
   }),
+
+  getUserPlatforms: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma
+      .$queryRaw`select Platform.name from User join Game on User.id = Game.addedByUserId join Platform on Game.platformId = Platform.id;`;
+  }),
 });

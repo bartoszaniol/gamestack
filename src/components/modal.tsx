@@ -4,7 +4,7 @@ interface ModalProps {
   onCancel: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ onCancel }) => {
+const Modal = (props: ModalProps) => {
   const { mutate: addGame, isLoading, error } = api.game.addGame.useMutation();
 
   return (
@@ -53,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({ onCancel }) => {
         <button
           className="w-32 rounded-md border-4  p-2 text-white"
           onClick={() => {
-            onCancel();
+            props.onCancel();
           }}
         >
           Cancel

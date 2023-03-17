@@ -26,7 +26,7 @@ export const gameRouter = createTRPCRouter({
       };
     }),
 
-  getAllGamesById: publicProcedure.query(async ({ ctx }) => {
+  getAllGamesByUserId: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.game.findMany({
       where: { addedByUserId: ctx.session?.user.id },
     });

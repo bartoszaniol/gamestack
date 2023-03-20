@@ -37,14 +37,6 @@ const Home = () => {
         />
       )}
       <main className="relative h-screen bg-gradient-to-br from-prim-blue to-sec-blue">
-        <button
-          className="m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
-          onClick={() => {
-            signOut();
-          }}
-        >
-          Sign out
-        </button>
         <div className="text-white">Start stacking up your games</div>
         <button
           className="m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
@@ -55,6 +47,14 @@ const Home = () => {
           Add a game
         </button>
         <ul className="h-40 w-20">{games2}</ul>
+        <button
+          className="fixed top-0 right-0 m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
+          onClick={() => {
+            signOut();
+          }}
+        >
+          Sign out
+        </button>
       </main>
     </>
   );

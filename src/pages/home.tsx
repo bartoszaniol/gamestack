@@ -1,14 +1,15 @@
 import { getSession, signOut } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "~/components/Modal";
 import GamesList from "~/components/GamesList";
 import { api } from "~/utils/api";
-import { Game } from "@prisma/client";
+import { Game, Platform } from "@prisma/client";
 
 const Home = () => {
   const { data: gamesList } = api.game.getAllGamesByUserId.useQuery();
   const { data: platforms } = api.game.getUserPlatforms.useQuery();
+
   const [isModal, setIsModal] = useState(false);
 
   const gamesByPlatform: { [key: string]: Game[] } = {};
@@ -24,7 +25,13 @@ const Home = () => {
   console.log(gamesByPlatform);
 
   const games2 = Object.keys(gamesByPlatform).map((key, idx) => {
-    return <GamesList platform={key} games={gamesByPlatform[key] as Game[]} />;
+    return (
+      <GamesList
+        key={idx}
+        platform={key}
+        games={gamesByPlatform[key] as Game[]}
+      />
+    );
   });
 
   return (
@@ -37,9 +44,11 @@ const Home = () => {
         />
       )}
       <main className="relative h-screen bg-gradient-to-br from-prim-blue to-sec-blue">
-        <div className="text-white">Start stacking up your games</div>
+        {!gamesList && (
+          <div className="text-white">Start stacking up your games</div>
+        )}
         <button
-          className="m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
+          className="fixed bottom-0 right-0 m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
           onClick={() => {
             setIsModal((val) => !val);
           }}

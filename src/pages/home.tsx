@@ -22,7 +22,6 @@ const Home = () => {
       gamesByPlatform[platform.name] = platformGames;
     }
   });
-  console.log(gamesByPlatform);
 
   const games2 = Object.keys(gamesByPlatform).map((key, idx) => {
     return (

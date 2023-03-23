@@ -14,7 +14,7 @@ const Home = () => {
 
   const gamesByPlatform: { [key: string]: Game[] } = {};
 
-  platforms?.forEach((platform, idx) => {
+  platforms?.forEach((platform: Platform, idx) => {
     const platformGames = gamesList?.filter((game) => {
       return game.platformId === platform.id;
     });
@@ -27,7 +27,7 @@ const Home = () => {
     return (
       <GamesList
         key={idx}
-        platform={key}
+        platform={platforms![idx] as Platform}
         games={gamesByPlatform[key] as Game[]}
       />
     );

@@ -14,8 +14,10 @@ const Home = () => {
 
   const gamesByPlatform: { [key: string]: Game[] } = {};
 
-  platforms?.forEach((platform: Platform, idx) => {
-    const platformGames = gamesList?.filter((game) => {
+  if (!gamesList || !platforms) return <div>Something went wrong</div>;
+
+  platforms.forEach((platform: Platform, idx) => {
+    const platformGames = gamesList.filter((game) => {
       return game.platformId === platform.id;
     });
     if (platformGames) {
@@ -76,7 +78,7 @@ export const getServerSideProps = async (
   const session = await getSession(context);
 
   if (!session) {
-    return { redirect: { destination: "/" } };
+    return { redirect: { destination: "/", permanent: false } };
   }
 
   return {

@@ -29,7 +29,7 @@ model Game {
     platformId    String
     image         String
     addedByUser   User?    @relation(fields: [addedByUserId], references: [id])
-    addedByUserId String?
+    addedByUserId String
 }
 
 model User {

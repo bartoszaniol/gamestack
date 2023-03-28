@@ -1,4 +1,5 @@
 import { Game, Platform } from "@prisma/client";
+import GameItem from "./GameItem";
 
 const GamesList = (props: { games: Game[]; platform: Platform }) => {
   const gameList = (
@@ -10,18 +11,9 @@ const GamesList = (props: { games: Game[]; platform: Platform }) => {
         className="h-[90%] bg-white object-cover"
       />
       <div className="flex w-screen">
-        {props.games.map((game) => {
-          return (
-            <div key={game.id} className="m-2 w-40 border-4 border-white">
-              <img
-                src={game.image}
-                alt={game.title}
-                className="h-[90%] border-b-4 object-cover"
-              />
-              <p className="text-white">{game.title}</p>
-            </div>
-          );
-        })}
+        {props.games.map((game) => (
+          <GameItem game={game} key={game.id} />
+        ))}
       </div>
     </li>
   );

@@ -32,6 +32,19 @@ export const gameRouter = createTRPCRouter({
     });
   }),
 
+  getPlatforms: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.prisma.platform.findMany();
+  }),
+
+  deleteGame: publicProcedure
+    .input(z.string())
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.game.delete({ where: { id: input } });
+      return {
+        success: `true`,
+      };
+    }),
+
   getUserPlatforms: publicProcedure.query(async ({ ctx }) => {
     return (await ctx.prisma.$queryRaw`
       select Platform.name, Platform.id, Platform.image from Platform join Game on Platform.id = Game.platformId join User on User.id = Game.addedByUserId;`) as Platform[];

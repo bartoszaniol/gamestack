@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { api } from "~/utils/api";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
@@ -15,31 +15,42 @@ const schema = z.object({
 });
 
 const Modal = (props: ModalProps) => {
-  const { mutate: addGame, isLoading, error } = api.game.addGame.useMutation();
+  const { mutate: addGame } = api.game.addGame.useMutation();
+  const { data: platforms } = api.game.getPlatforms.useQuery();
   const [URL, setURL] = useState("");
   const {
     register,
-    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(schema),
   });
 
+  const addGameHandler = (
+    data: FieldValues
+    // e: FormEvent
+  ) => {
+    // e.preventDefault();
+    const platformId = platforms?.filter(
+      (platform) => platform.name === data.platform
+    );
+
+    if (!platformId || !platformId[0]) return;
+
+    addGame({
+      image: data.url,
+      title: data.title,
+      platformId: platformId[0].id,
+    });
+    props.onCancel();
+  };
+
   return (
     <form
       className="absolute left-1/2 top-[40%] z-10 -ml-[25%] -mt-[15%] flex h-3/4 w-1/2 flex-col rounded-md bg-slate-900 p-2 text-white"
-      onSubmit={
-        handleSubmit((data) => {
-          console.log(data);
-          if (data.url) {
-            console.log("XD");
-          }
-        })
-
-        // handleSubmit((d) => console.log(d));
-        // addGame({ image: "", title: "", platformId: "" });
-      }
+      onSubmit={handleSubmit((data) => {
+        addGameHandler(data);
+      })}
     >
       <p className="p-4 text-center text-3xl">Add your game</p>
       <label htmlFor="title" className="p-4 text-center text-2xl">
@@ -77,9 +88,6 @@ const Modal = (props: ModalProps) => {
         className="h-7 w-3/4 self-center bg-slate-500 pl-1 text-xl font-bold text-white"
         placeholder="Address URL"
         onChange={(e) => {
-          setURL(e.target.value);
-        }}
-        onBlur={(e) => {
           setURL(e.target.value);
         }}
       />

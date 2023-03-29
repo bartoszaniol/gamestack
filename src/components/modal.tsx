@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { api } from "~/utils/api";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,11 +26,7 @@ const Modal = (props: ModalProps) => {
     resolver: zodResolver(schema),
   });
 
-  const addGameHandler = (
-    data: FieldValues
-    // e: FormEvent
-  ) => {
-    // e.preventDefault();
+  const addGameHandler = (data: FieldValues) => {
     const platformId = platforms?.filter(
       (platform) => platform.name === data.platform
     );

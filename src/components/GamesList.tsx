@@ -6,10 +6,12 @@ import Backdrop from "./Backdrop";
 
 const GamesList = (props: { games: Game[]; platform: Platform }) => {
   const [isClicked, setIsClicked] = useState(false);
+  const [gameId, setGameId] = useState("");
 
   const triggerClickHandler = () => {
     setIsClicked((prev) => !prev);
   };
+
   const gameList = (
     <li>
       {isClicked && <Backdrop onClose={triggerClickHandler} />}
@@ -18,16 +20,20 @@ const GamesList = (props: { games: Game[]; platform: Platform }) => {
         alt={props.platform.name}
         className="h-[90%] bg-white object-cover"
       />
-      <div className="flex w-screen">
-        {props.games.map((game) => (
-          <main key={game.id}>
-            {isClicked && (
-              <GameInfo game={game} onCancel={triggerClickHandler} />
-            )}
-            <GameItem game={game} onShowInfo={triggerClickHandler} />
+      <div className="mb-8 flex w-screen">
+        {props.games.map((game, index) => (
+          <main key={index}>
+            <GameItem
+              game={game}
+              onShowInfo={() => {
+                triggerClickHandler();
+                setGameId(game.id);
+              }}
+            />
           </main>
         ))}
       </div>
+      {isClicked && <GameInfo gameId={gameId} onCancel={triggerClickHandler} />}
     </li>
   );
 

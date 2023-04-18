@@ -32,6 +32,14 @@ export const gameRouter = createTRPCRouter({
     });
   }),
 
+  getGameById: publicProcedure
+    .input(z.object({ gameId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.prisma.game.findUnique({
+        where: { id: input.gameId },
+      });
+    }),
+
   getPlatforms: publicProcedure.query(async ({ ctx }) => {
     return await ctx.prisma.platform.findMany();
   }),

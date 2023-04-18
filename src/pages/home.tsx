@@ -25,7 +25,7 @@ const Home = () => {
     }
   });
 
-  const games2 = Object.keys(gamesByPlatform).map((key, idx) => {
+  const games = Object.keys(gamesByPlatform).map((key, idx) => {
     return (
       <GamesList
         key={idx}
@@ -56,7 +56,7 @@ const Home = () => {
         >
           Add a game
         </button>
-        <ul className="h-40 w-20">{games2}</ul>
+        <ul className="h-40 w-20">{games}</ul>
         <button
           className="fixed top-0 right-0 m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
           onClick={() => {

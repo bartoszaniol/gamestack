@@ -2,8 +2,8 @@ import { Game } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useEffect } from "react";
 import { api } from "~/utils/api";
+import { useEffect, useState } from "react";
 
 const schema = z.object({
   title: z.string().min(1, { message: "Required" }),
@@ -11,51 +11,51 @@ const schema = z.object({
   url: z.union([z.literal(""), z.string().trim().url()]),
 });
 
-const GameInfo = (props: { game: Game; onCancel: () => void }) => {
-  console.log(props.game);
-
+const GameInfo = (props: { gameId: string; onCancel: () => void }) => {
+  const { data: game } = api.game.getGameById.useQuery({
+    gameId: props.gameId,
+  });
   const { mutate: deleteGame } = api.game.deleteGame.useMutation();
   const {
     register,
-    handleSubmit,
     formState: { errors },
-    getValues,
     setValue,
   } = useForm({
     resolver: zodResolver(schema),
   });
-
   useEffect(() => {
-    let platformName;
-    switch (props.game.platformId) {
-      case "1":
-        platformName = "pc";
-        break;
-      case "2":
-        platformName = "ps";
-        break;
-      case "3":
-        platformName = "xbox";
-        break;
-      case "4":
-        platformName = "switch";
-        break;
-      default:
-        break;
+    if (game) {
+      let platformName;
+      switch (game.platformId) {
+        case "1":
+          platformName = "pc";
+          break;
+        case "2":
+          platformName = "ps";
+          break;
+        case "3":
+          platformName = "xbox";
+          break;
+        case "4":
+          platformName = "switch";
+          break;
+        default:
+          break;
+      }
+      setValue("title", game.title);
+      setValue("url", game.image);
+      setValue("platform", platformName);
     }
-    setValue("title", props.game.title);
-    setValue("url", props.game.image);
-    setValue("platform", platformName);
-  }, []);
+  }, [game]);
+
+  if (!game) {
+    return <div>Something went wrong</div>;
+  }
 
   return (
     <div className="absolute left-1/2 top-[40%] z-20 -ml-[25%] -mt-[15%] flex h-3/4 w-1/2 flex-col rounded-md bg-slate-900 p-2 text-white">
       <div className="flex h-[90%]">
-        <img
-          src={props.game.image}
-          alt={props.game.title}
-          className="h-3/4 w-3/4"
-        />
+        <img src={game.image} alt={game.title} className="h-[50%] w-[50%]" />
         <form className="flex w-full flex-col">
           <label htmlFor="title" className="p-4 text-center text-2xl">
             Title

@@ -55,7 +55,11 @@ const GameInfo = (props: { gameId: string; onCancel: () => void }) => {
   return (
     <div className="absolute left-1/2 top-[40%] z-20 -ml-[25%] -mt-[15%] flex h-3/4 w-1/2 flex-col rounded-md bg-slate-900 p-2 text-white">
       <div className="flex h-[90%]">
-        <img src={game.image} alt={game.title} className="h-[50%] w-[50%]" />
+        <img
+          src={game.image}
+          alt={game.title}
+          className="h-[80%] w-[50%] object-contain"
+        />
         <form className="flex w-full flex-col">
           <label htmlFor="title" className="p-4 text-center text-2xl">
             Title
@@ -94,7 +98,13 @@ const GameInfo = (props: { gameId: string; onCancel: () => void }) => {
         </form>
       </div>
       <div className="flex justify-around">
-        <button className="rounded border-4 border-red-600 bg-red-600">
+        <button
+          className="rounded border-4 border-red-600 bg-red-600"
+          onClick={() => {
+            deleteGame(props.gameId);
+            props.onCancel();
+          }}
+        >
           Delete
         </button>
         <button

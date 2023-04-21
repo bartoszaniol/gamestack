@@ -45,9 +45,32 @@ export const gameRouter = createTRPCRouter({
   }),
 
   deleteGame: publicProcedure
-    .input(z.string())
+    .input(z.object({ gameId: z.string() }))
     .mutation(async ({ input, ctx }) => {
-      await ctx.prisma.game.delete({ where: { id: input } });
+      await ctx.prisma.game.delete({ where: { id: input.gameId } });
+      return {
+        success: `true`,
+      };
+    }),
+
+  updateGame: publicProcedure
+    .input(
+      z.object({
+        gameId: z.string(),
+        title: z.string(),
+        platformId: z.string(),
+        image: z.string(),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.game.update({
+        where: { id: input.gameId },
+        data: {
+          title: input.title,
+          platformId: input.platformId,
+          image: input.image,
+        },
+      });
       return {
         success: `true`,
       };

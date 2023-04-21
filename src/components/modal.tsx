@@ -44,9 +44,7 @@ const Modal = (props: ModalProps) => {
   return (
     <form
       className="absolute left-1/2 top-[40%] z-10 -ml-[25%] -mt-[15%] flex h-3/4 w-1/2 flex-col rounded-md bg-slate-900 p-2 text-white"
-      onSubmit={handleSubmit((data) => {
-        addGameHandler(data);
-      })}
+      onSubmit={handleSubmit((data) => addGameHandler(data))}
     >
       <p className="p-4 text-center text-3xl">Add your game</p>
       <label htmlFor="title" className="p-4 text-center text-2xl">

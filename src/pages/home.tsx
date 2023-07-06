@@ -1,6 +1,6 @@
 import { getSession, signOut } from "next-auth/react";
 import { GetServerSidePropsContext } from "next";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Modal from "~/components/Modal";
 import GamesList from "~/components/GamesList";
 import { api } from "~/utils/api";
@@ -16,7 +16,7 @@ const Home = () => {
 
   if (!gamesList || !platforms) return <div>Something went wrong</div>;
 
-  platforms.forEach((platform: Platform, idx) => {
+  platforms.forEach((platform) => {
     const platformGames = gamesList.filter((game) => {
       return game.platformId === platform.id;
     });
@@ -25,7 +25,15 @@ const Home = () => {
     }
   });
 
-  const games = Object.keys(gamesByPlatform).map((key, idx) => {
+  const gamesKeys = Object.keys(gamesByPlatform).sort();
+
+  const sortedPlatforms: any = {};
+
+  gamesKeys.forEach((key) => {
+    return (sortedPlatforms[key] = gamesByPlatform[key]);
+  });
+
+  const games = Object.keys(sortedPlatforms).map((key, idx) => {
     return (
       <GamesList
         key={idx}
@@ -45,7 +53,7 @@ const Home = () => {
         />
       )}
       <main className="relative h-screen bg-gradient-to-br from-prim-blue to-sec-blue">
-        {!gamesList && (
+        {gamesList.length == 0 && (
           <div className="text-white">Start stacking up your games</div>
         )}
         <button
@@ -56,7 +64,8 @@ const Home = () => {
         >
           Add a game
         </button>
-        <ul className="h-40 w-20">{games}</ul>
+        {gamesList.length != 0 && <ul className="h-40 w-20">{games}</ul>}
+
         <button
           className="fixed top-0 right-0 m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
           onClick={() => {

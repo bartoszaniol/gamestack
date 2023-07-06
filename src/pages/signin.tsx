@@ -7,6 +7,7 @@ const Home = ({
   providers,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   let content;
+  if (!providers) return <div>No way to log in. xDDD</div>;
   if (providers) {
     content = Object.values(providers).map((provider) => (
       <li

@@ -7,8 +7,8 @@ import { api } from "~/utils/api";
 import { Game, Platform } from "@prisma/client";
 
 const Home = () => {
-  const { data: gamesList } = api.game.getAllGamesByUserId.useQuery();
   const { data: platforms } = api.game.getUserPlatforms.useQuery();
+  const { data: gamesList } = api.game.getAllGamesByUserId.useQuery();
 
   const [isModal, setIsModal] = useState(false);
 
@@ -25,15 +25,7 @@ const Home = () => {
     }
   });
 
-  const gamesKeys = Object.keys(gamesByPlatform).sort();
-
-  const sortedPlatforms: any = {};
-
-  gamesKeys.forEach((key) => {
-    return (sortedPlatforms[key] = gamesByPlatform[key]);
-  });
-
-  const games = Object.keys(sortedPlatforms).map((key, idx) => {
+  const games = Object.keys(gamesByPlatform).map((key, idx) => {
     return (
       <GamesList
         key={idx}
@@ -54,18 +46,29 @@ const Home = () => {
       )}
       <main className="relative h-screen bg-gradient-to-br from-prim-blue to-sec-blue">
         {gamesList.length == 0 && (
-          <div className="text-white">Start stacking up your games</div>
+          <div className="flex h-full flex-col items-center justify-center text-white">
+            <div>Start stacking up your games</div>
+            <button
+              className="m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
+              onClick={() => {
+                setIsModal((val) => !val);
+              }}
+            >
+              Add a game
+            </button>
+          </div>
         )}
-        <button
-          className="fixed bottom-0 right-0 m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
-          onClick={() => {
-            setIsModal((val) => !val);
-          }}
-        >
-          Add a game
-        </button>
+        {gamesList.length != 0 && (
+          <button
+            className="fixed bottom-0 right-0 m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
+            onClick={() => {
+              setIsModal((val) => !val);
+            }}
+          >
+            Add a game
+          </button>
+        )}
         {gamesList.length != 0 && <ul className="h-40 w-20">{games}</ul>}
-
         <button
           className="fixed top-0 right-0 m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
           onClick={() => {

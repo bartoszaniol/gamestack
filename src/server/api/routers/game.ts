@@ -71,13 +71,11 @@ export const gameRouter = createTRPCRouter({
           image: input.image,
         },
       });
-      return {
-        success: `true`,
-      };
+      return {};
     }),
 
   getUserPlatforms: publicProcedure.query(async ({ ctx }) => {
     return (await ctx.prisma.$queryRaw`
-      select Platform.name, Platform.id, Platform.image from Platform join Game on Platform.id = Game.platformId join User on User.id = Game.addedByUserId;`) as Platform[];
+      select Platform.name, Platform.id, Platform.image from Platform join Game on Platform.id = Game.platformId join User on User.id = ${ctx.session?.user.id} group by Platform.id order by Platform.id;`) as Platform[];
   }),
 });

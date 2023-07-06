@@ -1,5 +1,4 @@
 import { Game } from "@prisma/client";
-import { api } from "~/utils/api";
 
 const GameItem = (props: { game: Game; onShowInfo: () => void }) => {
   return (

@@ -15,8 +15,17 @@ const GameInfo = (props: { gameId: string; onCancel: () => void }) => {
   const { data: game } = api.game.getGameById.useQuery({
     gameId: props.gameId,
   });
-  const { mutate: deleteGame } = api.game.deleteGame.useMutation();
-  const { mutate: updateGame } = api.game.updateGame.useMutation();
+  const trcpUtils = api.useContext();
+  const { mutate: deleteGame } = api.game.deleteGame.useMutation({
+    onSuccess: () => {
+      trcpUtils.game.getAllGamesByUserId.invalidate();
+    },
+  });
+  const { mutate: updateGame } = api.game.updateGame.useMutation({
+    onSuccess: () => {
+      trcpUtils.game.getAllGamesByUserId.invalidate();
+    },
+  });
   const {
     register,
     formState: { errors },

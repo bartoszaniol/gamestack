@@ -15,7 +15,12 @@ const schema = z.object({
 });
 
 const Modal = (props: ModalProps) => {
-  const { mutate: addGame } = api.game.addGame.useMutation();
+  const trcpUtils = api.useContext();
+  const { mutate: addGame } = api.game.addGame.useMutation({
+    onSuccess: () => {
+      trcpUtils.game.getAllGamesByUserId.invalidate();
+    },
+  });
   const { data: platforms } = api.game.getPlatforms.useQuery();
   const [URL, setURL] = useState("");
   const {

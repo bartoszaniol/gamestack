@@ -5,8 +5,9 @@ import Modal from "~/components/Modal";
 import GamesList from "~/components/GamesList";
 import { api } from "~/utils/api";
 import { Game, Platform } from "@prisma/client";
+import Dropdown from "~/components/Dropdown";
 
-const Home = () => {
+const Home = ({ userName, userEmail }: any) => {
   const { data: platforms } = api.game.getUserPlatforms.useQuery();
   const { data: gamesList } = api.game.getAllGamesByUserId.useQuery();
 
@@ -69,14 +70,7 @@ const Home = () => {
           </button>
         )}
         {gamesList.length != 0 && <ul className="h-40 w-20">{games}</ul>}
-        <button
-          className="fixed top-0 right-0 m-4 rounded-md border-4 bg-gray-500 p-2 text-white"
-          onClick={() => {
-            signOut();
-          }}
-        >
-          Sign out
-        </button>
+        <Dropdown userName={userName} userEmail={userEmail} />
       </main>
     </>
   );
@@ -88,12 +82,17 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const session = await getSession(context);
+  const userName = session?.user.name;
+  const userEmail = session?.user.email;
 
   if (!session) {
     return { redirect: { destination: "/", permanent: false } };
   }
 
   return {
-    props: {},
+    props: {
+      userName,
+      userEmail,
+    },
   };
 };

@@ -21,9 +21,6 @@ export const gameRouter = createTRPCRouter({
           addedByUserId: ctx.session.user.id,
         },
       });
-      return {
-        success: `xd`,
-      };
     }),
 
   getAllGamesByUserId: publicProcedure.query(async ({ ctx }) => {

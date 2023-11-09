@@ -12,13 +12,13 @@ const GamesList = (props: { games: Game[]; platform: Platform }) => {
     setIsClicked((prev) => !prev);
   };
 
-  const gameList = (
+  const GamesList = (
     <li>
       {isClicked && <Backdrop onClose={triggerClickHandler} />}
       <img
         src={props.platform.image}
         alt={props.platform.name}
-        className="h-[90%] bg-white object-cover"
+        className="ml-2 h-[90%] rounded-md bg-slate-500"
       />
       <div className="mb-8 flex w-screen">
         {props.games.map((game, index) => (
@@ -37,7 +37,7 @@ const GamesList = (props: { games: Game[]; platform: Platform }) => {
     </li>
   );
 
-  return gameList;
+  return GamesList;
 };
 
 export default GamesList;

@@ -69,7 +69,7 @@ const Home = ({ userName, userEmail }: any) => {
             Add a game
           </button>
         )}
-        {gamesList.length != 0 && <ul className="h-40 w-20">{games}</ul>}
+        {gamesList.length != 0 && <ul className="w-20">{games}</ul>}
         <Dropdown userName={userName} userEmail={userEmail} />
       </main>
     </>

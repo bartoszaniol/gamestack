@@ -22,8 +22,9 @@ const Dropdown = (props: { userName: string; userEmail: string }) => {
         >
           <path
             stroke="currentColor"
-            stroke-linecap="round"
+            // stroke-linecap="round"
             stroke-linejoin="round"
+            strokeLinecap="round"
             stroke-width="2"
             d="m1 1 4 4 4-4"
           />

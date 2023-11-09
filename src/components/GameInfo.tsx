@@ -46,14 +46,12 @@ const GameInfo = (props: { gameId: string; onCancel: () => void }) => {
   }, [game]);
 
   if (!game) {
-    return <div>Something went wrong</div>;
+    return <div></div>;
   }
 
   const updateGameInfo = (data: FieldValues) => {
-    console.log("XD");
     const platformId = mapPlatform(data.platform);
     if (!platformId) return;
-    console.log(data);
 
     updateGame({
       gameId: props.gameId,
@@ -68,8 +66,8 @@ const GameInfo = (props: { gameId: string; onCancel: () => void }) => {
     <div className="absolute left-1/2 top-[40%] z-20 -ml-[25%] -mt-[15%] flex h-3/4 w-1/2 flex-col rounded-md bg-slate-900 p-2 text-white">
       <div className="flex h-[90%]">
         <img
-          src={game.image}
-          alt={game.title}
+          src={game!.image}
+          alt={game!.title}
           className="h-[80%] w-[50%] object-contain"
         />
         <form

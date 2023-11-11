@@ -23,9 +23,9 @@ const Dropdown = (props: { userName: string; userEmail: string }) => {
           <path
             stroke="currentColor"
             // stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinejoin="round"
             strokeLinecap="round"
-            stroke-width="2"
+            strokeWidth="2"
             d="m1 1 4 4 4-4"
           />
         </svg>
